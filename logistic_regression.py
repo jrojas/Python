@@ -51,5 +51,4 @@ fico = int(raw_input('Enter a FICO score:'))
 amount = int(raw_input('Enter a Loan amount:'))
 
 
-# execute prediction function
 pred(coeff, fico, amount)
