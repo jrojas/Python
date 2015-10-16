@@ -4,7 +4,7 @@ import statsmodels.api as sm
 import matplotlib.pyplot as plt
 %matplotlib inline
 
-# load clean data
+# load clead data
 loansData = pd.read_csv('loansData_clean.csv')
 
 #Interest Rate < 12%
@@ -19,6 +19,7 @@ loansData['Intercept'] = 1
 ind_vars = ['FICO.Score','Amount.Requested','Intercept']
 
 
+
 # Define the model
 logit = sm.Logit(loansData['IR_TF'], loansData[ind_vars])
 
@@ -30,14 +31,25 @@ coeff = result.params
 
 print coeff
 
-fico = raw_input('Enter a FICO score:')
-
-amount = raw_input('Enter a Loan amount:')
-
 
 def logistic_function(coeff,fico,amount):
    
       p = 1/(1 + np.exp(-(coeff[2] + coeff[0]*fico + coeff[1]*amount)))
       return   p
 
-logistic_function(coeff,fico,amount)
+# define pred function
+def pred(coeff, fico, amount):
+    p = logistic_function(coeff, fico, amount)
+    if p >= 0.70:
+        print('Loan Approved!')
+    else:
+        print('Loan Declined!')
+
+    
+fico = int(raw_input('Enter a FICO score:'))
+
+amount = int(raw_input('Enter a Loan amount:'))
+
+
+# execute prediction function
+pred(coeff, fico, amount)
